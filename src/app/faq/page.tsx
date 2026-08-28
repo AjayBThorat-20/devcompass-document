@@ -33,6 +33,7 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <DocsShell
+        path="/faq"
         title="Frequently Asked Questions"
         description="Everything people ask before installing DevCompass."
       >

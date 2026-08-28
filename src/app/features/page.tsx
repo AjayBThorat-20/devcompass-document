@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <DocsShell
+      path="/features"
       title="Features"
       description="Everything DevCompass checks, generates, and fixes — organized by area."
       toc={toc}

@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <DocsShell
+      path="/architecture"
       title="Architecture"
       description="Flow charts for contributors: how a command moves through the codebase, from bin/devcompass.js down to the shared engine."
       toc={toc}

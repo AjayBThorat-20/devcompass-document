@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <DocsShell
+      path="/getting-started"
       title="Getting Started"
       description="Install DevCompass globally, run it against any Node.js project, and optionally wire up CVE severity scoring — all in a few commands."
       toc={toc}

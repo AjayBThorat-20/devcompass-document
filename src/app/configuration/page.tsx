@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <DocsShell
+      path="/configuration"
       title="Configuration"
       description="No cloud account, no config server — everything DevCompass tracks stays on disk, either globally or inside your project."
       toc={toc}

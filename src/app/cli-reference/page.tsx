@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <DocsShell
+      path="/cli-reference"
       title="CLI Reference"
       description="Every DevCompass command, grouped by what it's for."
       toc={toc}

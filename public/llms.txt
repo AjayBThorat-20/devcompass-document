@@ -1,0 +1,34 @@
+# DevCompass Docs
+
+> Documentation site for [DevCompass](https://www.npmjs.com/package/devcompass) — a free, open-source CLI that scans Node.js/npm project dependencies for CVE vulnerabilities (via OSV + NVD), license conflicts, unused packages, and outdated versions, then can safely auto-fix them with automatic backup and rollback. Optional AI-powered recommendations via OpenAI, Anthropic, Google, or a fully local/free Ollama model.
+
+DevCompass is a complement to `npm audit` and Dependabot for teams that also want license-conflict detection, unused-dependency detection, a historical health score with trend tracking, interactive dependency graphs, and safe automated fixes — in one CLI, with no GitHub integration required. Install with `npm install -g devcompass`, then run `devcompass analyze`. It does not replace `npm audit`/Dependabot; it covers what they don't.
+
+## Documentation
+
+- [Getting Started](https://docs.devcompass.dev/getting-started): installation (global, local devDependency, or npx), running your first `devcompass analyze`, and optional CVE/API-key security setup.
+- [Features](https://docs.devcompass.dev/features): security & vulnerability detection, AI-powered analysis, historical tracking, interactive visualization, intelligent fixing — organized by area.
+- [CLI Reference](https://docs.devcompass.dev/cli-reference): every command (`analyze`, `fix`, `cve`, `graph`, `snapshot`, `compare`, `history`, `timeline`, `backup`, `ai`, `llm`, `config`, `clean`) with flags, descriptions, and runnable examples.
+- [Configuration](https://docs.devcompass.dev/configuration): where DevCompass stores state — global `~/.devcompass/` files, per-project files, data/config files — and the `config` command.
+- [Architecture](https://docs.devcompass.dev/architecture): for contributors — how a command flows from `bin/devcompass.js` through the CLI dispatch layer into a feature module, the `analyze` pipeline step by step, and how the dependency-graph dashboard is generated, all traced directly from source.
+- [FAQ](https://docs.devcompass.dev/faq): pricing, CVE sources, AI provider options, CI/CD usage, and how DevCompass compares to `npm audit` and Dependabot.
+
+## DevCompass project (source of truth)
+
+- [README](https://raw.githubusercontent.com/AjayBThorat-20/devcompass/main/README.md): canonical install instructions and full command reference, maintained alongside the CLI source — treat this as authoritative if it and this site ever disagree.
+- [CHANGELOG](https://raw.githubusercontent.com/AjayBThorat-20/devcompass/main/CHANGELOG.md): complete version-by-version history.
+- [MIGRATION guide](https://raw.githubusercontent.com/AjayBThorat-20/devcompass/main/MIGRATION.md): upgrade notes between major/minor versions.
+- [npm package](https://www.npmjs.com/package/devcompass): install command, current version, download stats.
+- [GitHub repository](https://github.com/AjayBThorat-20/devcompass): CLI source code and issue tracker.
+- [Docs site repository](https://github.com/AjayBThorat-20/devcompass-document): source for this documentation site.
+
+## Optional
+
+- [LICENSE](https://raw.githubusercontent.com/AjayBThorat-20/devcompass/main/LICENSE): MIT license text.
+
+## Author
+
+DevCompass and this documentation site are created and maintained by Ajay Thorat.
+- [Portfolio](https://www.ajaythorat.com)
+- [LinkedIn](https://www.linkedin.com/in/ajay-thorat-24b4b6215)
+- [GitHub](https://github.com/AjayBThorat-20)

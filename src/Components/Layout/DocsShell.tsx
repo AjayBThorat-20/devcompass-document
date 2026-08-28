@@ -10,20 +10,43 @@ interface DocsShellProps {
   title: string;
   description?: string;
   toc?: DocsTocItem[];
+  /** Canonical path of the page (e.g. "/architecture") - drives the BreadcrumbList structured data below. */
+  path: string;
   children: React.ReactNode;
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.devcompass.dev";
+
 // Two-column documentation shell: persistent left nav + a prose-width
 // content column - shared by every doc route (getting-started, features,
-// cli-reference, configuration, faq). No separate right-hand "On this
-// page" rail: DocsSidebar already expands every section's sub-anchors
-// at the same lg breakpoint where the sidebar itself appears, so a
-// second "on this page" list next to it would just repeat the same
-// labels. The collapsible "On this page" below the title only renders
-// below lg, exactly where the sidebar is hidden behind the mobile menu.
-export default function DocsShell({ title, description, toc = [], children }: DocsShellProps) {
+// cli-reference, configuration, architecture, faq). No separate
+// right-hand "On this page" rail: DocsSidebar already expands every
+// section's sub-anchors at the same lg breakpoint where the sidebar
+// itself appears, so a second "on this page" list next to it would just
+// repeat the same labels. The collapsible "On this page" below the
+// title only renders below lg, exactly where the sidebar is hidden
+// behind the mobile menu.
+export default function DocsShell({ title, description, toc = [], path, children }: DocsShellProps) {
+  // BreadcrumbList structured data: every doc page otherwise reads as an
+  // unrelated, disconnected page to a crawler/answer-engine - this ties
+  // each one back to the docs site as its parent, which is what shows
+  // up as the breadcrumb trail under a Google result and helps an LLM
+  // attribute the page correctly when citing it.
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "DevCompass Docs", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: title, item: `${siteUrl}${path}` },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
       <div className="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-12">
         <aside className="hidden lg:block">
           <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto py-10 pr-4">
