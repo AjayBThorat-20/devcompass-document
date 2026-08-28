@@ -1,0 +1,565 @@
+/* globals.css */
+@import "tailwindcss";
+
+/* Tailwind v4 no longer reads tailwind.config.ts's darkMode/theme.extend
+   automatically (that requires an explicit @config directive, which this
+   project never added) - so every dark: utility below was compiling to
+   `@media (prefers-color-scheme: dark)` instead of following the .dark
+   class the theme toggle sets, and every custom color/animation utility
+   (bg-primary, text-foreground, bg-card, animate-fadeIn, ...) never
+   existed in the compiled CSS at all. This restores class-based dark
+   mode and wires the CSS custom properties below into real Tailwind
+   utilities via the v4 CSS-first @theme API. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Wires the Geist font files (already loaded in layout.tsx via
+     localFont, but previously never consumed anywhere - body had a
+     hardcoded system font-family and `font-mono` fell back to
+     Tailwind's default stack) into real font-sans/font-mono utilities,
+     so the mono face can be used deliberately for eyebrows, dates,
+     and tech-stack labels instead of sitting on disk unused. */
+  --font-sans: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Expo-out (0.16, 1, 0.3, 1) - a slow-decelerating curve, not the
+     material ease-out (0.4, 0, 0.2, 1) these used before - is what gives
+     nabilissa.com-style entrances their smooth, weighted settle instead
+     of a quick linear-ish snap. Durations bumped alongside it (0.22s
+     read as instant at this easing) so the deceleration is actually
+     visible. */
+  --animate-fadeIn: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fadeInScale: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slideInLeft: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slideInRight: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slideInUp: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --font-sora/--font-geist-mono (from next/font) are only defined
+   starting at <body> via its CSS-module class - declaring a var()
+   reference to them on :root (an ancestor of body) computes as
+   permanently invalid there and stays invalid through inheritance, even
+   though the referenced property is visible further down the tree. So
+   these live on body, not :root. Headings share the body typeface
+   (documentation, not an editorial serif/sans pairing). */
+body {
+  --heading-typeface: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --body-typeface: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInScale {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInLeft {
+  0% { opacity: 0; transform: translateX(-30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes recPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes pageEnter {
+  0% { opacity: 0; transform: scale(0.99); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Route-change enter transition on DefaultLayout's key={pathname}
+   wrapper. Deliberately short and opacity/scale-only (no translateY) so
+   it settles before each page's own staggered content animations
+   become the dominant motion, rather than competing with them - this
+   softens the "instant snap" of a route change, it isn't a full
+   crossfade (the old page unmounts immediately when React swaps the
+   key, there's nothing to fade out). */
+.page-transition {
+  animation: pageEnter 0.22s ease-out;
+}
+
+/* ==========================================
+   ROOT VARIABLES — monochrome editorial
+   A binary black/white/gray system (one hue
+   family, zero saturation) instead of a
+   colored brand palette - matches the light,
+   high-contrast, minimalist reference this
+   redesign is based on. --destructive stays a
+   real semantic error color, not a decorative
+   accent, and is the only non-neutral hue on
+   the page.
+   ========================================== */
+:root {
+  --background: 0 0% 100%;     /* pure white */
+  --foreground: 0 0% 9%;       /* near-black ink */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 9%;
+  --primary: 0 0% 9%;          /* near-black - the dominant "accent" is ink itself */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 32%;       /* dark gray, secondary tier */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 0 0% 58%;          /* mid gray, quiet third tier */
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 75% 45%;    /* semantic only - real error states, not a brand accent */
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 0 0% 9%;
+  --radius: 0.375rem;
+}
+
+.dark {
+  --background: 0 0% 7%;       /* near-black */
+  --foreground: 0 0% 96%;      /* near-white ink */
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 96%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 96%;
+  --primary: 0 0% 96%;         /* near-white - dominant accent on dark */
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 68%;       /* light gray, secondary tier */
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 62%;
+  --accent: 0 0% 42%;          /* mid gray, quiet third tier */
+  --accent-foreground: 0 0% 96%;
+  --destructive: 0 80% 60%;    /* semantic only - real error states, not a brand accent */
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 0% 96%;
+}
+
+/* ==========================================
+   BASE STYLES
+   ========================================== */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  font-family: var(--body-typeface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display face on every heading site-wide, so the Fraunces/Sora pairing
+   reads consistently without touching every component's className. */
+h1, h2, h3, h4 {
+  font-family: var(--heading-typeface);
+  font-optical-sizing: auto;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+   ========================================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) hsl(var(--muted));
+}
+
+/* ==========================================
+   SELECTION
+   ========================================== */
+::selection {
+  background-color: hsl(var(--foreground) / 0.12);
+  color: hsl(var(--foreground));
+}
+
+/* ==========================================
+   FOCUS VISIBLE
+   ========================================== */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================
+   COMPONENT CLASSES — flat editorial surfaces
+   Hairline borders, no blur/backdrop-filter,
+   no colored glow. Depth comes from spacing
+   and typography, not lighting effects.
+   ========================================== */
+
+.glass {
+  background-color: hsl(var(--background) / 0.96);
+  border: 1px solid hsl(var(--border));
+}
+
+.glass-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+}
+
+/* Buttons — flat fill, hairline border, no gradient sheen or glow halo. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 600;
+  border-radius: 999px;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  border-radius: 999px;
+  transition: border-color 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  border-color: hsl(var(--foreground));
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: hsl(var(--foreground));
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s;
+}
+
+.btn-ghost:hover {
+  background-color: hsl(var(--muted));
+}
+
+/* Cards — flat fill, hairline border, a subtle lift and border darken on
+   hover instead of a colored glow. */
+.card,
+.card-interactive,
+.panel {
+  position: relative;
+}
+
+.card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--foreground) / 0.4);
+}
+
+.card-interactive {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--foreground) / 0.4);
+}
+
+/* Container */
+.container-custom {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+/* Section — generous vertical breathing room, editorial-scale rather
+   than app-dashboard-scale. Kept moderate on purpose: adjacent sections
+   each carry this top+bottom, so it stacks (e.g. one section's bottom
+   padding plus the next section's top padding) - at the original 6rem/
+   8rem values that stacked gap reached 192-256px, which combined with
+   scroll-reveal's opacity:0-until-triggered start state (see
+   useScrollReveal.ts) could read as a broken blank void between
+   sections rather than deliberate whitespace. */
+.section {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  background-color: transparent;
+  color: hsl(var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+}
+
+/* Eyebrow: the monospace "01 · SECTION" label used to head every
+   section, echoing a chapter number rather than another rounded chip. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--foreground));
+}
+
+/* Bordered statement panel. Use for single prose/statement/CTA blocks
+   (bio card, closing CTAs, hero teaser) - not for repeatable items, see
+   .entry-card below. */
+.panel {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+}
+
+/* Entry card - item-level surface for discrete repeatable content:
+   timeline entries, certifications, activities, project & review cards. */
+.entry-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
+}
+.entry-card:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--foreground) / 0.4);
+}
+
+/* Stat figure - typographic metric display, no card shell: a big mono
+   numeral + label behind a short border-left rule. For numbers that
+   should read as data, not another rounded box. */
+.stat-figure {
+  padding-left: 1rem;
+  border-left: 2px solid hsl(var(--border));
+}
+.stat-figure-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* List row - compact horizontal item for dense repeatable rows (e.g.
+   contact methods): a hairline divider between rows instead of each
+   row getting its own bordered box. */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+.list-row:first-child { padding-top: 0; }
+.list-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+/* Left-rail timeline scaffolding shared by Education and Experience. */
+.timeline-rail {
+  position: relative;
+}
+.timeline-rail::before {
+  content: "";
+  position: absolute;
+  left: 0.5625rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background-color: hsl(var(--border));
+}
+.timeline-node {
+  position: relative;
+  z-index: 1;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--card));
+}
+.timeline-node-primary { box-shadow: 0 0 0 2px hsl(var(--primary)); background-color: hsl(var(--primary)); }
+.timeline-node-secondary { box-shadow: 0 0 0 2px hsl(var(--secondary)); background-color: hsl(var(--secondary)); }
+.timeline-node-accent { box-shadow: 0 0 0 2px hsl(var(--accent)); background-color: hsl(var(--accent)); }
+
+/* Hide Scrollbar */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Live REC indicator — a pulsing dot paired with mono type. Kept as a
+   small "live" cue on the hero timecode, restyled neutral (no colored
+   glow) to fit the monochrome palette. */
+.rec-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--foreground));
+  animation: recPulse 1.6s ease-in-out infinite;
+}
+
+/* ==========================================
+   LINK UNDERLINE SWEEP
+   A thin rule draws in from the left on hover
+   instead of a hard color swap.
+   ========================================== */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Reduce layout shift */
+img {
+  height: auto;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
