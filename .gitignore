@@ -16,6 +16,10 @@
 # next.js
 /.next/
 /out/
+/.swc/
+
+# editor
+/.vscode/
 
 # production
 /build
@@ -42,3 +46,8 @@ next-env.d.ts
 
 # claude code
 .claude
+
+# auto-generated on every `next dev` run (see node_modules/next/dist/server/lib/generate-agent-files.js) —
+# ignored rather than committed so the working tree never shows them as dirty
+/AGENTS.md
+/CLAUDE.md
