@@ -8,6 +8,8 @@ export const navLinks: NavLink[] = [
   { href: "/features", label: "Features" },
   { href: "/cli-reference", label: "CLI Reference" },
   { href: "/configuration", label: "Configuration" },
+  { href: "/vs-npm-audit", label: "vs npm audit" },
+  { href: "/vs-dependabot", label: "vs Dependabot" },
   { href: "/faq", label: "FAQ" },
 ];
 

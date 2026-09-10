@@ -32,7 +32,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Does DevCompass send my code anywhere?",
     answer:
-      "Dependency names and versions are sent to OSV (and NVD, if configured) to look up known vulnerabilities — that's how any CVE scanner works. Your source code is never uploaded. AI features send dependency metadata (not source code) to whichever provider you configure; using `devcompass llm add --provider local` (Ollama) keeps everything on your machine.",
+      "Dependency names and versions are sent to OSV (and NVD, if configured) to look up known vulnerabilities — that's how any CVE scanner works. Your source code is never uploaded. AI features send one request per question, containing: your project's name and version, a locally-computed health score, and up to 10 entries each of outdated/security/deprecated/top-issue package names with their versions, severities, and short messages — plus whatever question you typed. No file paths, file contents, environment variables, or credentials are included. Using `devcompass llm add --provider local` (Ollama) keeps this on your machine instead of sending it to a third party at all. See the README's AI Integration Guide for the exact request body.",
   },
   {
     question: "Can I use DevCompass without an OpenAI API key?",

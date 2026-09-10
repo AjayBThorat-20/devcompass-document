@@ -61,6 +61,23 @@ export const docsNav: DocsNavSection[] = [
       { label: "The analyze Pipeline", href: "/architecture#analyze-pipeline" },
       { label: "CLI Command Pattern", href: "/architecture#cli-commands" },
       { label: "Dashboard Generation", href: "/architecture#dashboard" },
+      { label: "Testing & Coverage", href: "/architecture#testing" },
+    ],
+  },
+  {
+    label: "vs npm audit",
+    href: "/vs-npm-audit",
+    items: [
+      { label: "What npm audit does", href: "/vs-npm-audit#what-npm-audit-does" },
+      { label: "What DevCompass adds", href: "/vs-npm-audit#what-devcompass-adds" },
+    ],
+  },
+  {
+    label: "vs Dependabot",
+    href: "/vs-dependabot",
+    items: [
+      { label: "What Dependabot does", href: "/vs-dependabot#what-dependabot-does" },
+      { label: "What DevCompass adds", href: "/vs-dependabot#what-devcompass-adds" },
     ],
   },
   {

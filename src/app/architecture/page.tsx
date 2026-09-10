@@ -1,4 +1,4 @@
-import { Overview, AnalyzePipeline, CliCommandFlow, DashboardFlow } from "@/Components/Architecture/page";
+import { Overview, AnalyzePipeline, CliCommandFlow, DashboardFlow, TestingCoverage } from "@/Components/Architecture/page";
 import DocsShell from "@/Components/Layout/DocsShell";
 import { Metadata } from "next";
 
@@ -7,6 +7,7 @@ const toc = [
   { id: "analyze-pipeline", label: "The analyze Pipeline" },
   { id: "cli-commands", label: "CLI Command Pattern" },
   { id: "dashboard", label: "Dashboard Generation" },
+  { id: "testing", label: "Testing & Coverage" },
 ];
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function Page() {
       <AnalyzePipeline />
       <CliCommandFlow />
       <DashboardFlow />
+      <TestingCoverage />
     </DocsShell>
   );
 }

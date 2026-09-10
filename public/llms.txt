@@ -11,6 +11,8 @@ DevCompass is a complement to `npm audit` and Dependabot for teams that also wan
 - [CLI Reference](https://devcompass.ajaythorat.com/cli-reference): every command (`analyze`, `fix`, `cve`, `graph`, `snapshot`, `compare`, `history`, `timeline`, `backup`, `ai`, `llm`, `config`, `clean`) with flags, descriptions, and runnable examples.
 - [Configuration](https://devcompass.ajaythorat.com/configuration): where DevCompass stores state — global `~/.devcompass/` files, per-project files, data/config files — and the `config` command.
 - [Architecture](https://devcompass.ajaythorat.com/architecture): for contributors — how a command flows from `bin/devcompass.js` through the CLI dispatch layer into a feature module, the `analyze` pipeline step by step, and how the dependency-graph dashboard is generated, all traced directly from source.
+- [DevCompass vs npm audit](https://devcompass.ajaythorat.com/vs-npm-audit): where the two overlap (both use vulnerability data for known CVEs) and what DevCompass adds (license conflicts, unused dependencies, historical trends, AI-suggested alternatives, safe auto-fix with rollback).
+- [DevCompass vs Dependabot](https://devcompass.ajaythorat.com/vs-dependabot): Dependabot opens GitHub pull requests for outdated/vulnerable dependencies; DevCompass is a local CLI with no GitHub integration required, plus license-conflict and unused-dependency detection.
 - [FAQ](https://devcompass.ajaythorat.com/faq): pricing, CVE sources, AI provider options, CI/CD usage, and how DevCompass compares to `npm audit` and Dependabot.
 
 ## DevCompass project (source of truth)
