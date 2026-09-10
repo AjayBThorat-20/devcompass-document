@@ -6,12 +6,12 @@ DevCompass is a complement to `npm audit` and Dependabot for teams that also wan
 
 ## Documentation
 
-- [Getting Started](https://docs.devcompass.dev/getting-started): installation (global, local devDependency, or npx), running your first `devcompass analyze`, and optional CVE/API-key security setup.
-- [Features](https://docs.devcompass.dev/features): security & vulnerability detection, AI-powered analysis, historical tracking, interactive visualization, intelligent fixing — organized by area.
-- [CLI Reference](https://docs.devcompass.dev/cli-reference): every command (`analyze`, `fix`, `cve`, `graph`, `snapshot`, `compare`, `history`, `timeline`, `backup`, `ai`, `llm`, `config`, `clean`) with flags, descriptions, and runnable examples.
-- [Configuration](https://docs.devcompass.dev/configuration): where DevCompass stores state — global `~/.devcompass/` files, per-project files, data/config files — and the `config` command.
-- [Architecture](https://docs.devcompass.dev/architecture): for contributors — how a command flows from `bin/devcompass.js` through the CLI dispatch layer into a feature module, the `analyze` pipeline step by step, and how the dependency-graph dashboard is generated, all traced directly from source.
-- [FAQ](https://docs.devcompass.dev/faq): pricing, CVE sources, AI provider options, CI/CD usage, and how DevCompass compares to `npm audit` and Dependabot.
+- [Getting Started](https://devcompass.ajaythorat.com/getting-started): installation (global, local devDependency, or npx), running your first `devcompass analyze`, and optional CVE/API-key security setup.
+- [Features](https://devcompass.ajaythorat.com/features): security & vulnerability detection, AI-powered analysis, historical tracking, interactive visualization, intelligent fixing — organized by area.
+- [CLI Reference](https://devcompass.ajaythorat.com/cli-reference): every command (`analyze`, `fix`, `cve`, `graph`, `snapshot`, `compare`, `history`, `timeline`, `backup`, `ai`, `llm`, `config`, `clean`) with flags, descriptions, and runnable examples.
+- [Configuration](https://devcompass.ajaythorat.com/configuration): where DevCompass stores state — global `~/.devcompass/` files, per-project files, data/config files — and the `config` command.
+- [Architecture](https://devcompass.ajaythorat.com/architecture): for contributors — how a command flows from `bin/devcompass.js` through the CLI dispatch layer into a feature module, the `analyze` pipeline step by step, and how the dependency-graph dashboard is generated, all traced directly from source.
+- [FAQ](https://devcompass.ajaythorat.com/faq): pricing, CVE sources, AI provider options, CI/CD usage, and how DevCompass compares to `npm audit` and Dependabot.
 
 ## DevCompass project (source of truth)
 

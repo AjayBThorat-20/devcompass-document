@@ -24,7 +24,7 @@ const geistMono = localFont({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.devcompass.dev";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://devcompass.ajaythorat.com";
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 

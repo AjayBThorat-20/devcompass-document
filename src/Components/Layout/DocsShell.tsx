@@ -15,7 +15,7 @@ interface DocsShellProps {
   children: React.ReactNode;
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.devcompass.dev";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://devcompass.ajaythorat.com";
 
 // Two-column documentation shell: persistent left nav + a prose-width
 // content column - shared by every doc route (getting-started, features,
