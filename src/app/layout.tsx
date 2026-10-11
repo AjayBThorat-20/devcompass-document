@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "CLI tool",
     "Node.js security",
   ],
-  authors: [{ name: "Ajay Thorat" }],
+  authors: [{ name: "Ajay Thorat", url: "https://ajaythorat.com" }],
   creator: "Ajay Thorat",
   publisher: "Ajay Thorat",
   metadataBase: new URL(siteUrl),
@@ -109,9 +109,13 @@ export default function RootLayout({
       price: "0",
       priceCurrency: "USD",
     },
+    // Same @id as the Person on ajaythorat.com, so search engines treat the
+    // author here and the person there as one entity.
     author: {
       "@type": "Person",
+      "@id": "https://ajaythorat.com/#person",
       name: "Ajay Thorat",
+      url: "https://ajaythorat.com",
     },
     sameAs: [
       "https://github.com/AjayBThorat-20/devcompass",

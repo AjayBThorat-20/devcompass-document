@@ -87,7 +87,16 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground text-center md:text-left">
-            &copy; {new Date().getFullYear()} DevCompass. MIT Licensed.
+            &copy; {new Date().getFullYear()} DevCompass. MIT Licensed. Built by{" "}
+            <Link
+              href="https://ajaythorat.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline text-foreground hover:text-primary transition-colors duration-150"
+            >
+              Ajay Thorat
+            </Link>
+            .
           </p>
 
           <div className="flex items-center gap-6">
